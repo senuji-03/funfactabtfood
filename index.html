@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Lankan Food Fun Facts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+
+        .fact-card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 600px;
+            display: none;
+        }
+
+        .fact-card.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .main-button:hover {
+            background: #45a049;
+        }
+
+        .share-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍛 Sri Lankan Food Fun Facts 🫖</h1>
+    <button id="showFactButton" class="main-button">Show Food Fun Facts!</button>
+    <div id="fact-container"></div>
+
+    <script>
+        const foodFacts = {
+            "sriLankanFoodFacts": [
+                {
+                    "id": 1,
+                    "fact": "Rice and Curry is the national dish and traditionally served on a banana leaf in many areas"
+                },
+                {
+                    "id": 2,
+                    "fact": "Sri Lanka is known as the 'Spice Island' due to its high-quality cinnamon production - Ceylon Cinnamon is considered the true cinnamon of the world"
+                },
+                {
+                    "id": 3,
+                    "fact": "Many Sri Lankan dishes contain coconut in some form - whether as coconut milk, grated coconut, or coconut oil - as coconut trees are abundant on the island"
+                },
+                {
+                    "id": 4,
+                    "fact": "Hoppers (Appa) - a unique bowl-shaped pancake made from fermented rice batter - is a distinctive Sri Lankan breakfast food that's not commonly found in other Asian cuisines"
+                },
+                {
+                    "id": 5,
+                    "fact": "Sri Lankan cuisine is considered one of the world's spiciest, with many dishes incorporating multiple varieties of chili peppers"
+                },
+                {
+                    "id": 6,
+                    "fact": "Mallung (or Mallum) - a unique cooking technique where green leaves are finely chopped and lightly cooked with grated coconut - is a cooking method unique to Sri Lanka"
+                },
+                {
+                    "id": 7,
+                    "fact": "Sri Lanka has a special meal time called 'Evening Tea' (around 4 PM) where people typically enjoy short eats (small snacks) with tea"
+                },
+                {
+                    "id": 8,
+                    "fact": "The country is the world's largest exporter of tea (known as Ceylon Tea) after China"
+                }
+            ]
+        };
+
+        let currentFactIndex = 0;
+        const container = document.getElementById('fact-container');
+        const showFactButton = document.getElementById('showFactButton');
+
+        function showNextFact() {
+            container.innerHTML = '';
+            if (currentFactIndex < foodFacts.sriLankanFoodFacts.length) {
+                const factObj = foodFacts.sriLankanFoodFacts[currentFactIndex];
+                const card = document.createElement('div');
+                card.className = 'fact-card active';
+                card.innerHTML = `
+                    <p>${factObj.fact}</p>
+                    <button class="share-button" onclick="shareFact(${factObj.id})">Share</button>
+                `;
+                container.appendChild(card);
+                currentFactIndex++;
+                if (currentFactIndex === foodFacts.sriLankanFoodFacts.length) {
+                    currentFactIndex = 0;
+                }
+            }
+        }
+
+        function shareFact(id) {
+            const fact = foodFacts.sriLankanFoodFacts.find(f => f.id === id);
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Sri Lankan Food Fun Fact',
+                    text: fact.fact,
+                    url: window.location.href
+                })
+                .catch(console.error);
+            } else {
+                alert('Sharing is not supported on this browser');
+            }
+        }
+
+        showFactButton.addEventListener('click', showNextFact);
+    </script>
+</body>
+</html>
